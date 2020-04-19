@@ -1,6 +1,8 @@
 {
  "name": "Farwind",
  "short_name" : "Farwind",
+ "background_color" : "white",
+ "theme_color" : "gray",
  "start_url": "/",
  "display": "minimal-ui",
  "icons": [
@@ -37,6 +39,12 @@
   {
    "src": "\/android-icon-192x192.png",
    "sizes": "192x192",
+   "type": "image\/png",
+   "density": "4.0"
+  },
+  {
+   "src": "\/android-icon-512x512.png",
+   "sizes": "512x512",
    "type": "image\/png",
    "density": "4.0"
   }

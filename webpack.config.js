@@ -8,6 +8,7 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // to extract the css as a separate file
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 var MODE =
     process.env.npm_lifecycle_event === "prod" ? "production" : "development";
@@ -31,7 +32,34 @@ var common = {
             template: "src/index.html",
             // inject details of output file at end of body
             inject: "body"
-        })
+        }),
+        new WorkboxPlugin.GenerateSW({
+               // these options encourage the ServiceWorkers to get in there fast
+               // and not allow any straggling "old" SWs to hang around
+               clientsClaim: true,
+               skipWaiting: true,
+              // Do not precache images
+              exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+
+              // Define runtime caching rules.
+              runtimeCaching: [{
+                // Match any request that ends with .png, .jpg, .jpeg or .svg.
+                urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+
+                // Apply a cache-first strategy.
+                handler: 'CacheFirst',
+
+                options: {
+                  // Use a custom cache name.
+                  cacheName: 'images',
+
+                  // Only cache 10 images.
+                  expiration: {
+                    maxEntries: 10,
+                  },
+                },
+              }],
+        }),
     ],
     resolve: {
         modules: [path.join(__dirname, "src"), "node_modules"],
