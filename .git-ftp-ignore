@@ -1,0 +1,14 @@
+.gitignore
+*/.gitignore      # ignore files in sub directories
+*/.gitkeep
+.git-ftp-ignore
+.git-ftp-include
+src
+test
+xfc
+.github
+.babelrc
+elm.json
+farwind.iml
+package.json
+webpack.config.js
