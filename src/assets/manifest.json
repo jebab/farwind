@@ -1,7 +1,8 @@
 {
  "name": "Farwind",
+ "short_name" : "Farwind",
  "start_url": "/",
- "display": "browser",
+ "display": "minimal-ui",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",

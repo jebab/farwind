@@ -48,20 +48,29 @@ update message model =
 view : Model -> Html Msg
 view _ =
     Html.div
-        [ Attribute.class "hero is-fullheight" ]
+        [ Attribute.class "hero is-fullheight-with-navbar" ]
         [ Html.div [ Attribute.class "hero-head" ]
             [ Html.div [ Attribute.class "container" ]
                 [ Html.nav [ Attribute.class "navbar is-light" ]
                     [ Html.div [ Attribute.class "navabar-brand" ]
-                        [ Html.a [ Attribute.class "navbar-item" ]
-                            [ Html.img [ Attribute.src "/images/logo-2.png", Attribute.alt "logo" ] [] ]
+                        [ Html.a
+                            [ Attribute.class "navbar-item"
+                            , Attribute.href "https://farwind-energy.com/"
+                            ]
+                            [ Html.img
+                                [ Attribute.src "/images/tilded-logo.webp"
+                                , Attribute.alt "Farwind : We convert far-offshore wind energy into clean renewable fuel"
+                                , Attribute.height 56
+                                ]
+                                []
+                            ]
                         ]
                     ]
                 ]
             ]
         , Html.div [ Attribute.class "hero-body" ]
             [ Html.div [ Attribute.class "container has-text-centered" ]
-                [ Html.img [ Attribute.src "/images/boat.png", Attribute.alt "logo" ] []
+                [ Html.img [ Attribute.src "/images/boat.webp", Attribute.alt "logo" ] []
                 , Html.p [ Attribute.class "content" ]
                     [ Html.h3 [ Attribute.class "subtitle " ] [ Html.text "We convert far-offshore wind energy into clean renewable fuel." ]
                     , Html.a [ Attribute.class "button", Attribute.href "mailto:contact@farwind-energy.com" ] [ Html.text "Contact" ]
