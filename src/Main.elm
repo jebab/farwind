@@ -48,42 +48,28 @@ update message model =
 view : Model -> Html Msg
 view _ =
     Html.div
-        [ Attribute.class "hero is-fullheight-with-navbar" ]
-        [ Html.div [ Attribute.class "hero-head" ]
-            [ Html.div [ Attribute.class "container" ]
-                [ Html.nav [ Attribute.class "navbar is-light" ]
-                    [ Html.div [ Attribute.class "navabar-brand" ]
-                        [ Html.a
-                            [ Attribute.class "navbar-item"
-                            , Attribute.href "https://farwind-energy.com/"
-                            ]
-                            [ Html.img
-                                [ Attribute.src "/images/tilded-logo.webp"
-                                , Attribute.alt "Farwind : We convert far-offshore wind energy into clean renewable fuel"
-                                , Attribute.height 56
-                                ]
-                                []
-                            ]
-                        ]
+        []
+        [ Html.section [ Attribute.class "section" ]
+            [ Html.div [ Attribute.class "container has-text-centered" ]
+                [ Html.img
+                    [ Attribute.src "/images/tilded-logo.webp"
+                    , Attribute.alt "Farwind : We convert far-offshore wind energy into clean renewable fuel"
+                    , Attribute.height 56
                     ]
+                    []
                 ]
             ]
-        , Html.div [ Attribute.class "hero-body" ]
+        , Html.section [ Attribute.class "section" ]
             [ Html.div [ Attribute.class "container has-text-centered" ]
-                [ Html.img [ Attribute.src "/images/boat.webp", Attribute.alt "logo" ] []
-                , Html.p [ Attribute.class "content" ]
+                [ Html.img [ Attribute.src "/images/boat.webp", Attribute.alt "80m Autonomous Catamaran" ] []
+                ]
+            ]
+        , Html.div
+            [ Attribute.class "hero" ]
+            [ Html.div [ Attribute.class "container has-text-centered" ]
+                [ Html.p [ Attribute.class "content" ]
                     [ Html.h3 [ Attribute.class "subtitle " ] [ Html.text "We convert far-offshore wind energy into clean renewable fuel." ]
                     , Html.a [ Attribute.class "button", Attribute.href "mailto:contact@farwind-energy.com" ] [ Html.text "Contact" ]
-                    ]
-                ]
-            ]
-        , Html.div [ Attribute.class "hero-foot" ]
-            [ Html.div [ Attribute.class "tabs" ]
-                [ Html.div [ Attribute.class "container" ]
-                    [ Html.ul []
-                        [ Html.li []
-                            []
-                        ]
                     ]
                 ]
             ]
