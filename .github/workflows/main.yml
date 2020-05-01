@@ -34,7 +34,7 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@3.0.0
       with:
-        ftp-server: ftps://ftp.cluster029.hosting.ovh.net:21/www/
+        ftp-server: ftp://ftp.cluster029.hosting.ovh.net:21/www/
         ftp-username: farwindefo
         ftp-password: ${{ secrets.FTP_PASSWORD }}
         local-dir: dist/
