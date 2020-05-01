@@ -1,5 +1,22 @@
 @charset "utf-8";
 
+@font-face {
+    font-family: Ailerons;
+    src: url("fonts/Ailerons-Typeface.otf") format("opentype");
+}
+
+$primary: #142c42;
 $family-sans-serif: "Catamaran", sans-serif;
+$family-secondary: "Ailerons";
 
 @import "~bulma/bulma";
+
+.is-logo {
+    font-size: 8vw;
+    font-weight: lighter;
+}
+
+.is-mobile-logo {
+    font-size: 20vw;
+    font-weight: lighter;
+}

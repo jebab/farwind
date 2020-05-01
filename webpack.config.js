@@ -58,7 +58,15 @@ var common = {
                     maxEntries: 10,
                   },
                 },
-              }],
+              },
+              {
+                urlPattern: /\.(?:otf)$/,
+                handler: 'CacheFirst',
+                options: {
+                    // Use a custom cache name.
+                    cacheName: 'font',
+                },
+            }],
         }),
     ],
     resolve: {
