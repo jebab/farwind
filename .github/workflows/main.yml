@@ -7,8 +7,6 @@ name: Deploy to ftp
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 jobs:
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
