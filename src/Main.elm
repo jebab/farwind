@@ -1,8 +1,13 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
+import Boat exposing (Map)
 import Browser
+import Browser.Dom as Dom exposing (Element)
+import Browser.Events
 import Html exposing (..)
 import Html.Attributes as Attribute exposing (..)
+import Task
+import Time exposing (Posix)
 
 
 
@@ -11,15 +16,28 @@ import Html.Attributes as Attribute exposing (..)
 -- ---------------------------
 
 
-type alias Model =
-    { counter : Int
-    , serverMessage : String
+type alias ViewPort =
+    { width : Int
+    , height : Int
     }
 
 
-init : Int -> ( Model, Cmd Msg )
-init flags =
-    ( { counter = flags, serverMessage = "" }, Cmd.none )
+type alias Model =
+    { boats : Boat.Model Msg
+    , boatsElement : Maybe Element
+    , viewport : ViewPort
+    }
+
+
+init : ViewPort -> ( Model, Cmd Msg )
+init viewport =
+    ( { viewport = viewport
+      , boats = Boat.init (toFloat viewport.width) (toFloat viewport.height) ToggleAnimation
+      , boatsElement = Nothing
+      }
+    , Dom.getElement "boats-element"
+        |> Task.attempt GotBoatsElements
+    )
 
 
 
@@ -29,14 +47,42 @@ init flags =
 
 
 type Msg
-    = Noop
+    = GotNewSize ViewPort
+    | MoveBoat Posix
+    | ToggleAnimation
+    | GotBoatsElements (Result Dom.Error Element)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
-        Noop ->
-            ( model, Cmd.none )
+        GotBoatsElements boatsElement ->
+            case boatsElement of
+                Ok boatsElements_ ->
+                    ( { model
+                        | boatsElement = Just boatsElements_
+                        , boats = Boat.init boatsElements_.element.width boatsElements_.element.height ToggleAnimation
+                      }
+                    , Cmd.none
+                    )
+
+                Err _ ->
+                    ( { model | boatsElement = Nothing }, Cmd.none )
+
+        GotNewSize viewport ->
+            ( { model
+                | viewport = viewport
+                , boats = Boat.init (toFloat viewport.width) (toFloat viewport.height) ToggleAnimation
+              }
+            , Dom.getElement "boats-element "
+                |> Task.attempt GotBoatsElements
+            )
+
+        MoveBoat _ ->
+            ( { model | boats = Boat.update model.boats }, Cmd.none )
+
+        ToggleAnimation ->
+            ( { model | boats = Boat.toggleAnimation model.boats }, Cmd.none )
 
 
 
@@ -46,7 +92,7 @@ update message model =
 
 
 view : Model -> Html Msg
-view _ =
+view model =
     Html.main_
         []
         [ Html.section [ Attribute.class "hero is-fullheight" ]
@@ -86,8 +132,18 @@ view _ =
                         ]
                     ]
                 ]
-            , Html.div [ Attribute.class "hero-foot " ]
-                []
+            ]
+        , Html.section [ Attribute.class "hero is-fullheight" ]
+            [ Html.div
+                [ Attribute.class "hero-body has-fullheight-content"
+                ]
+                [ Html.div
+                    [ Attribute.id "boats-element"
+                    , Attribute.class "container has-text-centered is-fullheight-boats"
+                    ]
+                    [ Boat.map model.boats
+                    ]
+                ]
             ]
         ]
 
@@ -98,7 +154,7 @@ view _ =
 -- ---------------------------
 
 
-main : Program Int Model Msg
+main : Program ViewPort Model Msg
 main =
     Browser.document
         { init = init
@@ -108,5 +164,17 @@ main =
                 { title = "Farwind energy"
                 , body = [ view m ]
                 }
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = \m -> subscriptions m
         }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    if Boat.isPlaying model.boats then
+        Sub.batch
+            [ Browser.Events.onResize (\x y -> GotNewSize (ViewPort x y))
+            , Browser.Events.onAnimationFrame MoveBoat
+            ]
+
+    else
+        Browser.Events.onResize (\x y -> GotNewSize (ViewPort x y))

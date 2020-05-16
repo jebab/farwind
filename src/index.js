@@ -6,11 +6,13 @@ const {Elm} = require('./Main');
 
 var app =
     Elm.Main.init({
-        flags: 6,
+        flags: { width : window.innerWidth
+               , height : window.innerHeight
+               },
         node: document.getElementById('app')
     });
 
-
+/*
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js').then(registration => {
@@ -19,4 +21,4 @@ if ('serviceWorker' in navigator) {
       console.log('SW registration failed: ', registrationError);
     });
   });
-}
+}*/
